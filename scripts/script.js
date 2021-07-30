@@ -81,25 +81,25 @@ Add 'list-item' class to todoEl and 'list-item__container' class to containerEl 
 Append containerEl to todoEl using .appendChild()
 Finally return todoEl*/
 
-
+/*
 const generateTodoDOM = (todo) => {
     //se de3clara variables que alamcenan elementos
     const todoEl = document.createElement('label');
     const containerEl = document.createElement('div');
     const todoText = document.createElement('span');
     //se asigna el valor de todo a todoText
-    todoText.textContent = todo;
+    //todoText.textContent = todo;
     //añado a containerEl el valor de todoText usando appendChild()
     containerEl.appendChild(todoText);
 
     // agrego clases a todoEl y a conatinerEl usando classList.add()
-    todoEl.classList.add('list-item');
+    //todoEl.classList.add('list-item');
     containerEl.classList.add('list-item__container');
     //agrego containerEl a todoEl usando appendChild()
-    todoEl.appendChild(containerEl)
+    //todoEl.appendChild(containerEl)
 
     return todoEl
-}
+}*/
 
 /*
 Exercise 7:
@@ -159,4 +159,41 @@ const removeTodo = todoEl => {
     if (todoIndex > -1) {
         todos.splice(todoIndex, 1)
     }
+}
+
+/*
+Exercise 10:
+Modify the generateTodoDOM function to add a remove button.
+Create a button element and store it in a removeButton variable
+Assign a 'remove' string to the removeButton using textContent
+Add 'button', 'button--text' classes to removeButton
+Append the removeButton to todoEl
+Add a click event to the removeButton using .addEventListener() which will invoke the removeTodo function with todoText as an argument.
+Invoke the renderTodos function as well inside the click event handler function to update the list of todos on the screen*/
+
+const generateTodoDOM = (todo) => {
+    const todoEl = document.createElement('label')
+    const containerEl = document.createElement('div')
+    const todoText = document.createElement('span')
+
+    // Setup the todo text
+    todoText.textContent = todo
+    containerEl.appendChild(todoText)
+
+    // Setup container
+    todoEl.classList.add('list-item')
+    containerEl.classList.add('list-item__container')
+    todoEl.appendChild(containerEl)
+
+    // Setup the remove button
+    const removeButton = document.createElement('button')
+    removeButton.textContent = 'remove'
+    removeButton.classList.add('button', 'button--text')
+    todoEl.appendChild(removeButton)
+    removeButton.addEventListener('click', () => {
+        removeTodo(todoText)
+        renderTodos(todos)
+    })
+
+    return todoEl
 }
