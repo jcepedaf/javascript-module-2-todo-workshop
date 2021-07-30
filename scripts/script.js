@@ -109,11 +109,54 @@ Remove everything inside this todoList using the innerHTML property (Hint: Other
 Create DOM elements for all items of the todos array by using the forEach() method and generateTodoDOM function, and append the return value of generateTodoDOM to todoList using .appendChild()
 Use the renderTodos function instead of console.log(todos) in step 6 of Exercise 5.*/
 
-const renderTodos = (todos) => {
-    const todoList = document.querySelector('#todos')
-    todoList.innerHTML = ''
+//const renderTodos = (todos) => {
+    //const todoList = document.querySelector('#todos')
+    /*todoList.innerHTML = ''*/
 
+    /*todos.forEach((todo) => {*/
+            /*todoList.appendChild(generateTodoDOM(todo))*/
+    //})
+//}
+
+/*
+Exercise 8:
+Modify the renderTodos function using a conditional statement to check if the todos array is empty.
+If it is not empty then generateTodoDOM for each todo and append them to todoList
+Else: if it is empty, create a p element and store it into the messageEl variable.
+Add a 'empty-message' class to messageEl
+Assign the 'There are no todos to show' string to messageEl using textContent
+Append messageEl to todoList
+Invoke the renderTodos function with the todos array as an argument at the end of script.js file*/
+
+const renderTodos = todos => { 
+    const todoList = document.querySelector("#todos"); 
+    todoList.innerHTML = ''; 
+
+    if (todos.length >0) { 
+    
     todos.forEach((todo) => {
-            todoList.appendChild(generateTodoDOM(todo))
+        const newTodo = generateTodoDOM(todo);
+        todoList.appendChild(newTodo);
     })
+    } else {
+        const messageEl = document.createElement("p");
+        messageEl.classList.add('empty-message'); 
+        messageEl.textContent = 'There are no todos to show'; 
+        todoList.appendChild(messageEl);
+    }
+}
+
+/*
+Exercise 9:
+Create a function called removeTodo which will take a parameter todoEl
+Find the index of this todoEl in the todos array using .findIndex() and store the index value into the todoIndex variable
+Check whether todoIndex > -1, and if true then remove the element from the todos array using .splice()*/
+
+const removeTodo = todoEl => { 
+    const todoIndex = todos.findIndex((todo)=>{
+        return todo.toLowerCase() === todoEl.textContent.toLowerCase()
+    })
+    if (todoIndex > -1) {
+        todos.splice(todoIndex, 1)
+    }
 }
