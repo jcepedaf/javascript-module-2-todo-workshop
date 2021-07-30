@@ -22,4 +22,11 @@ Log this element using console.log()
 let buttonElement = document.querySelector(".button");
 console.log(buttonElement);*/
 
+/*
+Exercise 3:
+Change the background color of the Create button to green using the .style property
+
+let buttonElement = document.querySelector(".button");
+buttonElement.style.backgroundColor = "blue";*/
+
 
