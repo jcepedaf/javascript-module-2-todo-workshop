@@ -33,11 +33,38 @@ buttonElement.style.backgroundColor = "blue";*/
 Exercise 4:
 Delete all the existing code in script.js in the folder scripts
 Write code to access the form with id #new-todo using document.querySelector()
-Add a submit event to this form using .addEventListener() which will trim the value of the input Something to do and log it when you click Create button*/
+Add a submit event to this form using .addEventListener() which will trim the value of the input Something to do and log it when you click Create button
 
 document.querySelector('#new-todo').addEventListener('submit', (event) => {
     event.preventDefault()
     const text = event.target.elements.text.value.trim()
     console.log(text)
-})
+})*/
+
+/*
+Exercise 5:
+Create an empty array called todos
+In the next line create a function called createTodo which takes one parameter named text.
+This function should add the value of text parameter to the todos array using .push()
+Modify the event created in Exercise 4 to validate text and then call createTodo whenever the form is submitted.
+Hint: Use createTodo function inside callback function of addEventListener()
+Clear the value of the input Something to do once a new todo is created
+Log the todos array.*/
+
+let todos = [ ];
+function createTodo (text) {
+    todos.push(text);
+}
+
+document.querySelector('#new-todo').addEventListener('submit', (evento) => {
+    evento.preventDefault()
+    const text = evento.target.elements.text.value.trim()
+
+    if (text.length > 0) {
+        createTodo(text)
+        evento.target.elements.text.value = ''
+       }
+
+       console.log(todos);
+    })
 
