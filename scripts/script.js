@@ -65,7 +65,8 @@ document.querySelector('#new-todo').addEventListener('submit', (evento) => {
         evento.target.elements.text.value = ''
        }
 
-       console.log(todos);
+       //console.log(todos);
+       renderTodos(todos);
     })
 
 /*
@@ -100,3 +101,19 @@ const generateTodoDOM = (todo) => {
     return todoEl
 }
 
+/*
+Exercise 7:
+Create a function renderTodos that will take one parameter: an array of todos
+Write code to access a div with id 'todos' and store it into a todoList variable
+Remove everything inside this todoList using the innerHTML property (Hint: Otherwise we will append items multiple times)
+Create DOM elements for all items of the todos array by using the forEach() method and generateTodoDOM function, and append the return value of generateTodoDOM to todoList using .appendChild()
+Use the renderTodos function instead of console.log(todos) in step 6 of Exercise 5.*/
+
+const renderTodos = (todos) => {
+    const todoList = document.querySelector('#todos')
+    todoList.innerHTML = ''
+
+    todos.forEach((todo) => {
+            todoList.appendChild(generateTodoDOM(todo))
+    })
+}
