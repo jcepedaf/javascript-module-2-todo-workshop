@@ -68,3 +68,35 @@ document.querySelector('#new-todo').addEventListener('submit', (evento) => {
        console.log(todos);
     })
 
+/*
+Exercise 6:
+Create a function generateTodoDOM which will take one parameter todo
+Create a label element and store it in the todoEl variable using document.createElement('label')
+Similarly create a div element and store it in the variable containerEl
+Now create a span element and store it in todoText
+Assign todo value to todoText using textContent property
+Once todoText has been assigned todo value, append it to containerEl using .appendChild()
+Add 'list-item' class to todoEl and 'list-item__container' class to containerEl using .classList.add() Note: While it's really easy to change styles directly on elements using the style property, it is usually not a good idea to mix JavaScript and CSS. To solve this, we can use the .classList.add() or .classList.remove() property to set or remove the class for an element instead of changing its styles directly
+Append containerEl to todoEl using .appendChild()
+Finally return todoEl*/
+
+
+const generateTodoDOM = (todo) => {
+    //se de3clara variables que alamcenan elementos
+    const todoEl = document.createElement('label');
+    const containerEl = document.createElement('div');
+    const todoText = document.createElement('span');
+    //se asigna el valor de todo a todoText
+    todoText.textContent = todo;
+    //añado a containerEl el valor de todoText usando appendChild()
+    containerEl.appendChild(todoText);
+
+    // agrego clases a todoEl y a conatinerEl usando classList.add()
+    todoEl.classList.add('list-item');
+    containerEl.classList.add('list-item__container');
+    //agrego containerEl a todoEl usando appendChild()
+    todoEl.appendChild(containerEl)
+
+    return todoEl
+}
+
