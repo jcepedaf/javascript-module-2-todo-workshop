@@ -29,4 +29,15 @@ Change the background color of the Create button to green using the .style prope
 let buttonElement = document.querySelector(".button");
 buttonElement.style.backgroundColor = "blue";*/
 
+/*
+Exercise 4:
+Delete all the existing code in script.js in the folder scripts
+Write code to access the form with id #new-todo using document.querySelector()
+Add a submit event to this form using .addEventListener() which will trim the value of the input Something to do and log it when you click Create button*/
+
+document.querySelector('#new-todo').addEventListener('submit', (event) => {
+    event.preventDefault()
+    const text = event.target.elements.text.value.trim()
+    console.log(text)
+})
 
