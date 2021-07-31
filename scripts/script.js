@@ -197,3 +197,5 @@ const generateTodoDOM = (todo) => {
 
     return todoEl
 }
+
+prueba
