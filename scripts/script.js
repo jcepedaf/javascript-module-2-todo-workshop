@@ -52,9 +52,19 @@ Clear the value of the input Something to do once a new todo is created
 Log the todos array.*/
 
 let todos = [ ];
-function createTodo (text) {
-    todos.push(text);
+
+//exercise 11
+const createTodo = (text) => {
+    todos.push({
+        title: text,
+        completed: false
+    })
 }
+//exercise 11
+
+/*function createTodo (text) {
+    todos.push(text);
+}*/
 
 document.querySelector('#new-todo').addEventListener('submit', (evento) => {
     evento.preventDefault()
@@ -68,6 +78,8 @@ document.querySelector('#new-todo').addEventListener('submit', (evento) => {
        //console.log(todos);
        renderTodos(todos);
     })
+
+   
 
 /*
 Exercise 6:
@@ -128,7 +140,7 @@ Assign the 'There are no todos to show' string to messageEl using textContent
 Append messageEl to todoList
 Invoke the renderTodos function with the todos array as an argument at the end of script.js file*/
 
-const renderTodos = todos => { 
+/*const renderTodos = todos => { 
     const todoList = document.querySelector("#todos"); 
     todoList.innerHTML = ''; 
 
@@ -144,7 +156,7 @@ const renderTodos = todos => {
         messageEl.textContent = 'There are no todos to show'; 
         todoList.appendChild(messageEl);
     }
-}
+}*/
 
 /*
 Exercise 9:
@@ -152,14 +164,25 @@ Create a function called removeTodo which will take a parameter todoEl
 Find the index of this todoEl in the todos array using .findIndex() and store the index value into the todoIndex variable
 Check whether todoIndex > -1, and if true then remove the element from the todos array using .splice()*/
 
-const removeTodo = todoEl => { 
+/*const removeTodo = todoEl => { 
     const todoIndex = todos.findIndex((todo)=>{
-        return todo.toLowerCase() === todoEl.textContent.toLowerCase()
+        return todo.title === todoEl.toLowerCase()
     })
     if (todoIndex > -1) {
         todos.splice(todoIndex, 1)
     }
+}*/
+
+//exercise 13
+const removeTodo = title => { //1. Cambiamos parámetro a title
+    const todoIndex = todos.findIndex((todo)=>{
+        return todo.title.toLowerCase() === title.toLowerCase(); //Modifique de todo a todo.title - Ejercicio 12
+    })
+    if (todoIndex > -1) {
+        todos.splice(todoIndex, 1);
+    }
 }
+//end exercise 13
 
 /*
 Exercise 10:
@@ -171,29 +194,126 @@ Append the removeButton to todoEl
 Add a click event to the removeButton using .addEventListener() which will invoke the removeTodo function with todoText as an argument.
 Invoke the renderTodos function as well inside the click event handler function to update the list of todos on the screen*/
 
-const generateTodoDOM = (todo) => {
+//exercise 13
+const toggleTodo = (title) => {
+    const todo = todos.find((todo) => todo.title.toLowerCase() === title.toLowerCase())
+
+    if (todo) {
+       todo.completed = !todo.completed
+    }
+}
+//end exercise 13
+
+//exercise 12
+const generateTodoDOM = (todoObj) => {
     const todoEl = document.createElement('label')
     const containerEl = document.createElement('div')
     const todoText = document.createElement('span')
 
-    // Setup the todo text
-    todoText.textContent = todo
+    const checkbox = document.createElement('input')
+    checkbox.setAttribute('type', 'checkbox')
+    checkbox.checked = todoObj.completed
+    containerEl.appendChild(checkbox)
+    checkbox.addEventListener('change', () => {
+        toggleTodo(todoObj.title)
+        renderTodos(todos)
+    })
+
+    todoText.textContent = todoObj.title
     containerEl.appendChild(todoText)
 
-    // Setup container
     todoEl.classList.add('list-item')
     containerEl.classList.add('list-item__container')
     todoEl.appendChild(containerEl)
 
-    // Setup the remove button
     const removeButton = document.createElement('button')
     removeButton.textContent = 'remove'
     removeButton.classList.add('button', 'button--text')
     todoEl.appendChild(removeButton)
     removeButton.addEventListener('click', () => {
-        removeTodo(todoText)
+        removeTodo(todoObj.title)
         renderTodos(todos)
     })
 
     return todoEl
 }
+//end exercise 12
+
+
+// exercise 14
+const filters = {
+    searchTitle: '',
+    showFinished: false,
+    showUnfinished: false
+}
+ //end exercise 14
+
+ //exercise 15
+ const setFilters = (updates) => {
+    if (typeof updates.searchTitle === 'string') {
+        filters.searchTitle = updates.searchTitle
+    }
+    if (typeof updates.showFinished === 'boolean') {
+        filters.showFinished = updates.showFinished
+    }
+    if (typeof updates.showUnfinished === 'boolean') {
+        filters.showUnfinished = updates.showUnfinished
+    }
+}
+//end exercise 15
+
+//exercise 16
+document.querySelector('#search-text').addEventListener('input', (e) => {
+    setFilters({
+        searchTitle: e.target.value
+    })
+    //console.log(e.target.value);
+    renderTodos(todos)
+})
+
+document.querySelector('#show-finished').addEventListener('change', (e) => {
+    setFilters({
+        showFinished: e.target.checked
+    })
+    renderTodos(todos)
+})
+
+document.querySelector('#show-unfinished').addEventListener('change', (e) => {
+    setFilters({
+        showUnfinished: e.target.checked
+    })
+    renderTodos(todos)
+})
+
+//end exercise 16
+
+//exercise 17
+
+const renderTodos = (todos) => {
+    // filtered Todos
+    let filteredTodos = todos.filter((todo) => todo.title.toLowerCase().includes(filters.searchTitle.toLowerCase()))
+    if(filters.showFinished && filters.showUnfinished) {
+      // do nothing
+    } else if(filters.showFinished) {
+      filteredTodos = filteredTodos.filter((todo) => todo.completed)
+    } else if(filters.showUnfinished) {
+      filteredTodos = filteredTodos.filter((todo) => !todo.completed)
+    }
+    
+    const todoList = document.querySelector('#todos')
+    todoList.innerHTML = ''
+
+    if (filteredTodos.length > 0) {
+        filteredTodos.forEach((todo) => {
+            todoList.appendChild(generateTodoDOM(todo))
+        })
+    } else {
+        const messageEl = document.createElement('p')
+        messageEl.classList.add('empty-message')
+        messageEl.textContent = 'There are no todos to show'
+        todoList.appendChild(messageEl)
+    }
+}
+
+//end exercise 17
+
