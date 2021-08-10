@@ -59,6 +59,7 @@ const createTodo = (text) => {
         title: text,
         completed: false
     })
+    saveTodosToLocalStorage(); // parte del exercise 20
 }
 //exercise 11
 
@@ -180,6 +181,7 @@ const removeTodo = title => { //1. Cambiamos parámetro a title
     })
     if (todoIndex > -1) {
         todos.splice(todoIndex, 1);
+        saveTodosToLocalStorage(); // parte de exercise de 20
     }
 }
 //end exercise 13
@@ -200,6 +202,7 @@ const toggleTodo = (title) => {
 
     if (todo) {
        todo.completed = !todo.completed
+       saveTodosToLocalStorage(); // parte del exercise 20
     }
 }
 //end exercise 13
@@ -316,4 +319,40 @@ const renderTodos = (todos) => {
 }
 
 //end exercise 17//
+
+//exercise 18
+
+const saveTodosToLocalStorage = () => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+}
+
+//end exercise
+
+//exercise 19
+
+const fetchTodosFromLocalStorage = () => {
+    const todosJSON = localStorage.getItem('todos')
+
+    if (todosJSON) {
+        todos = JSON.parse(todosJSON)
+    } else {
+        todos = []
+    }
+}
+
+//end exercise 19
+
+//exercise 21
+
+window.addEventListener('storage', (e) => {
+    if (e.key === 'todos') {
+        fetchTodosFromLocalStorage()
+        renderTodos(todos)
+    }
+})
+
+fetchTodosFromLocalStorage()
+renderTodos(todos)
+
+//end exercise 21
 
